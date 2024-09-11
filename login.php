@@ -1,21 +1,16 @@
 <?php
 include('config/db.php'); // Include database configuration
-
-if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  $_SESSION = [];
+if (isset($_GET['logout']) && $_GET['logout'] == 'true'){
+  session_unset();
   session_destroy();
   header("Location: login.php");
   exit();
-}
-
+}   
 // Prevent back navigation after logout
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-
-// Check if the user is already logged in
 if (isset($_SESSION['user_id'])) {
   // Redirect to the dashboard if already logged in
   header("Location: dashboard.php");
@@ -24,17 +19,11 @@ if (isset($_SESSION['user_id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $conn->real_escape_string($_POST['email']);
-  $password = $_POST['password'];
-
-  // Check if user exists in the database
+  $password = $_POST['password'];  // Check if user exists in the database
   $query = "SELECT * FROM users WHERE email = '$email'";
   $result = $conn->query($query);
-
-  if ($result->num_rows > 0) {
-    // Login success
-    $user = $result->fetch_assoc();
-
-    // Verify the password (assuming password is hashed)
+  if ($result->num_rows > 0) { // Login success
+    $user = $result->fetch_assoc(); // Verify the password (assuming password is hashed)
     if (password_verify($password, $user['password'])) {
       // Credentials are valid, set session variables,store user data in session
       $_SESSION['user_id'] = $user['id'];
@@ -51,11 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $conn->close();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />

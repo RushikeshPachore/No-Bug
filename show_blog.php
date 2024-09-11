@@ -25,7 +25,7 @@ include "inc/header.php";
             <td><?= htmlspecialchars($blog['category']); ?></td>
             <td><?= htmlspecialchars($blog['title']); ?></td>
             <td><?= htmlspecialchars($blog['description']); ?></td>
-            <td><img src="<?= htmlspecialchars($blog['image_path']); ?>" alt="blog Image" width="100"></td>
+            <td><img src="uploads/<?= htmlspecialchars($blog['image_path']); ?>" alt="blog Image" width="100"></td>
             <td>
               <a href="edit_blog.php?id=<?= urlencode($blog['id']); ?>" class="btn1 btn-edit">Edit</a>
               <a href="delete_blog.php?id=<?= urlencode($blog['id']); ?>" class="btn1 btn-delete" style="background-color:darkred; " onclick="return confirm('Are you sure you want to delete this blog?');">Delete</a>

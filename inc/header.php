@@ -1,17 +1,13 @@
 <?php
-include('config/db.php');
-if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
-  // Destroy the session
-  session_destroy();
-  // Redirect to login page
-  header("Location: login.php");
-  exit();
-}
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-?>
 
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,7 +60,7 @@ header("Pragma: no-cache");
             <hr class="dropdown-divider" />
           </li>
           <?php if (isset($_SESSION['user_id'])): ?>
-            <li><a class="dropdown-item" href="?logout=true">Logout</a></li>
+            <li><a class="dropdown-item" href="login.php?logout=true">Logout</a></li>
           <?php endif; ?>
         </ul>
       </li>

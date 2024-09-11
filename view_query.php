@@ -1,6 +1,6 @@
 <?php
-include 'config/db.php';  
-include 'inc/header.php';     
+include 'config/db.php';
+include 'inc/header.php';
 
 
 $query = "SELECT * FROM contact_query";
@@ -45,4 +45,4 @@ if ($result->num_rows > 0) {
 echo "</div>";  // Close container
 
 $conn->close();
-include('inc/footer.php');     // Include footer file
+include 'inc/footer.php';     // Include footer file
