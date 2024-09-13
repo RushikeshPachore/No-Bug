@@ -6,10 +6,12 @@ include 'inc/header.php';
 $query = "SELECT * FROM contact_query";
 $result = $conn->query($query);
 
-echo "<div class='container2'>";
-echo "<div class='header-container'>
-        <h1>Contact Queries</h1>
-        <a href='contact_form.php' class='btn1 btn-primary'>Query</a>
+echo "<div id='blogtable' class='container2'>";
+echo "<h1>Contact Queries</h1>
+      <div class='header-container'>  
+      <div style='text-align: right;' >
+        <a  href='contact_form.php' class='btn1 btn-primary'>Query</a>
+      </div>
       </div>";
 if ($result->num_rows > 0) {
   echo "<table border='1' class='table table-striped'>

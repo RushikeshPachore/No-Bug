@@ -48,8 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
   } else {
     echo "Image upload error";
   }
-} else {
-  echo "Form not submitted correctly";
 }
 
 

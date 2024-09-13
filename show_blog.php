@@ -1,15 +1,16 @@
 <?php
 include('blog.php');
 include "inc/header.php";
+
 // include "config/db.php";
 ?>
 <main class="main">
-  <div class="container2">
+  <div id=blogtable class="container2">
     <!-- blogs in a table -->
     <div style="text-align: right; margin-top: 20px;">
       <a href="create_blog.php" class="btn1">ADD</a>
     </div>
-    <table>
+    <table >
       <thead>
         <tr>
           <th>Category</th>

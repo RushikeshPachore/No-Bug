@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div
                       class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                      <a class="small" href="password.html">Forgot Password?</a>
+                      <a class="small" href="forget_password.php">Forgot Password?</a>
                       <button class="btnlogin btn-primary" type="submit">Login</button>
                       <!-- <a class="btnlogin btn-primary" href="dashboard.php">Login</a> -->
                     </div>

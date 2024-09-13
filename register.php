@@ -2,11 +2,12 @@
 
 include 'config/db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-   
+
+
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
     $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
     $errors = [];
@@ -15,11 +16,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (empty($lastname)) {
         $errors[] = "Last name is required.";
-    }   
+    }
     if (empty($email)) {
         $errors[] = "Email is required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
+    }
+    if (empty($phone)) {
+        $errors[] = "Phone is required.";
+    } elseif (!preg_match('/^\+?[0-9]{10,15}$/', $phone)) {
+        $errors[] = "Invalid phone number format. Please enter a valid phone number.";
     }
     if (empty($password)) {
         $errors[] = "Password is required.";
@@ -32,11 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If there are no errors, proceed with inserting the data
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (firstname, lastname, email, password) VALUES (?, ?, ?, ?)";
+
+        var_dump($firstname, $lastname, $email, $phone, $hashed_password);
+
+        $query = "INSERT INTO users (firstname, lastname, email, phone, password) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssss", $firstname, $lastname, $email, $hashed_password);
+        $stmt->bind_param("sssss", $firstname, $lastname, $email, $phone, $hashed_password);
         if ($stmt->execute()) {
-            header("Location: login.html");
+            header("Location: login.php");
             exit;
         } else {
             $errors[] = "Something went wrong: " . $stmt->error;
@@ -51,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="css/styles.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
+
 <body class="bg-primary">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
@@ -99,6 +110,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" name="email" value="<?= htmlspecialchars($email ?? '') ?>" />
                                             <label for="inputEmail">Email address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control" id="inputPhone" type="text" placeholder="Enter your phone number" name="phone" value="<?= htmlspecialchars($phone ?? '') ?>" />
+                                            <label for="inputPhone">Phone</label>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
@@ -150,6 +165,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 </body>
+
 </html>
-
-
